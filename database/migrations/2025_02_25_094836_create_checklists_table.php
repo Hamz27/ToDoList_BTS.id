@@ -4,29 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateChecklistsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('checklists', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key to users table
             $table->timestamps();
-        
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-        
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('checklists');
     }
-};
+}
